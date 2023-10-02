@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../bloc/product/products_bloc.dart';
+import '../../../bloc/products/products_bloc.dart';
 import '../../../utils/custom_themes.dart';
 import '../../../utils/dimensions.dart';
 import '../../../utils/images.dart';

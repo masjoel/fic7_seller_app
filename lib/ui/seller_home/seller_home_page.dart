@@ -16,7 +16,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
   final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
-    double limitedStockCardHeight = MediaQuery.of(context).size.width / 1.4;
+    // double limitedStockCardHeight = MediaQuery.of(context).size.width / 1.4;
     return Scaffold(
       backgroundColor: ColorResources.getHomeBg(context),
       body: CustomScrollView(

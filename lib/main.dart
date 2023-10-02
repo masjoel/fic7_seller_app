@@ -1,5 +1,7 @@
+import 'package:fic7_seller_app/bloc/add_image/add_image_bloc.dart';
+import 'package:fic7_seller_app/bloc/add_product/add_product_bloc.dart';
 import 'package:fic7_seller_app/bloc/categories/categories_bloc.dart';
-import 'package:fic7_seller_app/bloc/product/products_bloc.dart';
+import 'package:fic7_seller_app/bloc/products/products_bloc.dart';
 import 'package:fic7_seller_app/ui/dashboard/seller_dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,6 +38,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => CategoriesBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AddImageBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AddProductBloc(),
         ),
       ],
       child: MaterialApp(
