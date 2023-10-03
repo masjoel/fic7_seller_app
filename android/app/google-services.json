@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "466878748532",
+    "project_id": "fic7-ecommerce",
+    "storage_bucket": "fic7-ecommerce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466878748532:android:0757efc042db4f52353e21",
+        "android_client_info": {
+          "package_name": "com.example.fic7_seller_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2Bc5-ES8Gjt-QBlHZo8aUp-zy9cskgMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

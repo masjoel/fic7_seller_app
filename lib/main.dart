@@ -1,19 +1,26 @@
-import 'package:fic7_seller_app/bloc/add_image/add_image_bloc.dart';
-import 'package:fic7_seller_app/bloc/add_product/add_product_bloc.dart';
-import 'package:fic7_seller_app/bloc/categories/categories_bloc.dart';
-import 'package:fic7_seller_app/bloc/products/products_bloc.dart';
-import 'package:fic7_seller_app/ui/dashboard/seller_dashboard_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'bloc/add_image/add_image_bloc.dart';
+import 'bloc/add_product/add_product_bloc.dart';
+import 'bloc/categories/categories_bloc.dart';
 import 'bloc/login/login_bloc.dart';
 import 'bloc/logout/logout_bloc.dart';
+import 'bloc/products/products_bloc.dart';
 import 'bloc/register/register_bloc.dart';
 import 'data/datasources/auth_local_datasource.dart';
+import 'data/datasources/firebase_messaging_remote_datasource.dart';
+import 'firebase_options.dart';
 import 'ui/auth/auth_page.dart';
+import 'ui/dashboard/seller_dashboard_page.dart';
 import 'utils/light_themes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseMessagingRemoteDatasource().initNotification();
   runApp(const MyApp());
 }
 
@@ -47,9 +54,9 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: light,
-        home: FutureBuilder<bool>(
+          title: 'Flutter Demo',
+          theme: light,
+          home: FutureBuilder<bool>(
             future: AuthLocalDatasource().isLogin(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -58,13 +65,13 @@ class MyApp extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   ),
                 );
-              } else if (snapshot.hasData && snapshot.data == true) {
+              } else if (snapshot.hasData && snapshot.data!) {
                 return const SellerDashboardPage();
               } else {
                 return const AuthPage();
               }
-            }),
-      ),
+            },
+          )),
     );
   }
 }
