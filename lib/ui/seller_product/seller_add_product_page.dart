@@ -241,45 +241,24 @@ class _SellerAddProductPageState extends State<SellerAddProductPage> {
               const SizedBox(
                 height: Dimensions.paddingSizeExtraSmall,
               ),
-              BlocBuilder<CategoriesBloc, CategoriesState>(
+              BlocConsumer<CategoriesBloc, CategoriesState>(
+                listener: (context, state) {
+                  state.whenOrNull(
+                      loaded: (data) =>
+                          selectCategory = selectCategory ?? data.data.first);
+                },
                 builder: (context, state) {
                   return state.maybeWhen(
                     orElse: () {
-                      return const Text('server error 2');
+                      return const Text('Server error 2');
                     },
-                    loading: () => const Center(
-                      child: LinearProgressIndicator(),
-                    ),
-                    loaded: (data) {
-                      selectCategory = selectCategory ?? data.data.first;
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: Dimensions.paddingSizeSmall),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.circular(
-                              Dimensions.paddingSizeExtraSmall),
-                          border: Border.all(
-                              width: .5,
-                              color:
-                                  Theme.of(context).hintColor.withOpacity(.7)),
-                        ),
-                        child: DropdownButton<Category>(
-                          value: selectCategory,
-                          items: data.data.map((val) {
-                            return DropdownMenuItem<Category>(
-                              value: val,
-                              child: Text(val.name),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            selectCategory = value;
-                            setState(() {});
-                          },
-                          isExpanded: true,
-                          underline: const SizedBox(),
-                        ),
+                    loading: () {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
+                    },
+                    loaded: (data) {
+                      return buildCategoryDropdown(data.data);
                     },
                   );
                 },
@@ -371,6 +350,36 @@ class _SellerAddProductPageState extends State<SellerAddProductPage> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget buildCategoryDropdown(List<Category> categories) {
+    return Container(
+      padding:
+          const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+        border: Border.all(
+            width: 0.5, color: Theme.of(context).hintColor.withOpacity(0.7)),
+      ),
+      child: DropdownButton<Category>(
+        value: selectCategory,
+        items: categories.map((val) {
+          return DropdownMenuItem<Category>(
+            value: val,
+            child: Text(val.name),
+          );
+        }).toList(),
+        onChanged: (value) {
+          // selectCategory = value;
+          setState(() {
+            selectCategory = value;
+          });
+        },
+        isExpanded: true,
+        underline: const SizedBox(),
       ),
     );
   }

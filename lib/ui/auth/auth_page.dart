@@ -77,26 +77,26 @@ class _AuthPageState extends State<AuthPage> {
                           ),
                           const SizedBox(
                               width: Dimensions.paddingSizeExtraLarge),
-                          InkWell(
-                            onTap: () => pageController.animateToPage(1,
-                                duration: const Duration(seconds: 1),
-                                curve: Curves.easeInOut),
-                            child: Column(
-                              children: [
-                                Text('SignUp',
-                                    style: !isLoginPage
-                                        ? titilliumSemiBold
-                                        : titilliumRegular),
-                                Container(
-                                    height: 1,
-                                    width: 50,
-                                    margin: const EdgeInsets.only(top: 8),
-                                    color: !isLoginPage
-                                        ? Theme.of(context).primaryColor
-                                        : Colors.transparent),
-                              ],
-                            ),
-                          ),
+                          // InkWell(
+                          //   onTap: () => pageController.animateToPage(1,
+                          //       duration: const Duration(seconds: 1),
+                          //       curve: Curves.easeInOut),
+                          //   child: Column(
+                          //     children: [
+                          //       Text('SignUp',
+                          //           style: !isLoginPage
+                          //               ? titilliumSemiBold
+                          //               : titilliumRegular),
+                          //       Container(
+                          //           height: 1,
+                          //           width: 50,
+                          //           margin: const EdgeInsets.only(top: 8),
+                          //           color: !isLoginPage
+                          //               ? Theme.of(context).primaryColor
+                          //               : Colors.transparent),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],

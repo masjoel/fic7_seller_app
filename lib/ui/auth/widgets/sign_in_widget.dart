@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/login/login_bloc.dart';
 import '../../../data/datasources/auth_local_datasource.dart';
+import '../../../data/datasources/firebase_messaging_remote_datasource.dart';
 import '../../../data/models/request/login_request_model.dart';
 import '../../../utils/color_resources.dart';
 import '../../../utils/custom_themes.dart';
@@ -133,6 +134,8 @@ class SignInWidgetState extends State<SignInWidget> {
                       orElse: () {},
                       loaded: (data) async {
                         await AuthLocalDatasource().saveAuthData(data);
+                        await FirebaseMessagingRemoteDatasource()
+                            .initNotification();
                         // ignore: use_build_context_synchronously
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (context) {
@@ -182,7 +185,7 @@ class SignInWidgetState extends State<SignInWidget> {
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Text('Continue as Guest',
+                child: Text('Seller App',
                     style: titleHeader.copyWith(
                         color: ColorResources.getPrimary(context))),
               ),

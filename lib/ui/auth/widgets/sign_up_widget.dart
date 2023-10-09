@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/register/register_bloc.dart';
 import '../../../data/datasources/auth_local_datasource.dart';
+import '../../../data/datasources/firebase_messaging_remote_datasource.dart';
 import '../../../data/models/request/register_request_model.dart';
 import '../../../utils/color_resources.dart';
 import '../../../utils/custom_themes.dart';
@@ -10,6 +11,7 @@ import '../../../utils/dimensions.dart';
 import '../../base_widgets/button/custom_button.dart';
 import '../../base_widgets/text_field/custom_password_textfield.dart';
 import '../../base_widgets/text_field/custom_textfield.dart';
+import '../../dashboard/seller_dashboard_page.dart';
 
 
 class SignUpWidget extends StatefulWidget {
@@ -144,11 +146,12 @@ class SignUpWidgetState extends State<SignUpWidget> {
                 },
                 loaded: (data) async {
                   await AuthLocalDatasource().saveAuthData(data);
+                  await FirebaseMessagingRemoteDatasource().initNotification();
                   // ignore: use_build_context_synchronously
-                  // Navigator.pushAndRemoveUntil(context,
-                  //     MaterialPageRoute(builder: (context) {
-                  //   return const DashboardPage();
-                  // }), (route) => false);
+                  Navigator.pushAndRemoveUntil(context,
+                      MaterialPageRoute(builder: (context) {
+                    return const SellerDashboardPage();
+                  }), (route) => false);
                 },
               );
             },

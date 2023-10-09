@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../bloc/logout/logout_bloc.dart';
+import '../../data/datasources/auth_local_datasource.dart';
 import '../../utils/color_resources.dart';
 import '../../utils/dimensions.dart';
 import '../../utils/images.dart';
+import '../auth/auth_page.dart';
 import 'widgets/on_going_order_widget.dart';
 
 class SellerHomePage extends StatefulWidget {
@@ -43,6 +47,49 @@ class _SellerHomePageState extends State<SellerHomePage> {
 
                 SizedBox(height: Dimensions.paddingSizeSmall),
               ],
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: BlocConsumer<LogoutBloc, LogoutState>(
+              listener: (context, state) {
+                state.maybeWhen(
+                  orElse: () {},
+                  loaded: (message) {
+                    AuthLocalDatasource().removeAuthData();
+                    Navigator.pushAndRemoveUntil(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const AuthPage();
+                    }), (route) => false);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Logout successfully'),
+                      backgroundColor: Colors.blue,
+                    ));
+                  },
+                  error: (message) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(message),
+                      backgroundColor: Colors.red,
+                    ));
+                  },
+                );
+              },
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () {
+                    return ElevatedButton(
+                      onPressed: () {
+                        context
+                            .read<LogoutBloc>()
+                            .add(const LogoutEvent.logout());
+                      },
+                      child: const Text('Logout'),
+                    );
+                  },
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
             ),
           )
         ],
