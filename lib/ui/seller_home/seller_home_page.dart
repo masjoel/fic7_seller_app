@@ -76,13 +76,19 @@ class _SellerHomePageState extends State<SellerHomePage> {
               builder: (context, state) {
                 return state.maybeWhen(
                   orElse: () {
-                    return ElevatedButton(
-                      onPressed: () {
-                        context
-                            .read<LogoutBloc>()
-                            .add(const LogoutEvent.logout());
-                      },
-                      child: const Text('Logout'),
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          context
+                              .read<LogoutBloc>()
+                              .add(const LogoutEvent.logout());
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 27, 86, 195),
+                        ),
+                        child: const Text('Logout', style: TextStyle(color: Colors.white)),
+                      ),
                     );
                   },
                   loading: () => const Center(

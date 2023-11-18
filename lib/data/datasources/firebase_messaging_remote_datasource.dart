@@ -37,7 +37,7 @@ class FirebaseMessagingRemoteDatasource {
 
     final fcmToken = await _firebaseMessaging.getToken();
 
-    print('Token: $fcmToken');
+    // print('Token: $fcmToken');
 
     if (await AuthLocalDatasource().isLogin()) {
       AuthRemoteDatasource().updateFcmToken(fcmToken ?? '');
@@ -45,8 +45,8 @@ class FirebaseMessagingRemoteDatasource {
 
     FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessage.listen((message) {
-      print(message.notification?.body);
-      print(message.notification?.title);
+      // print(message.notification?.body);
+      // print(message.notification?.title);
     });
 
     FirebaseMessaging.onMessage.listen(firebaseBackgroundHandler);

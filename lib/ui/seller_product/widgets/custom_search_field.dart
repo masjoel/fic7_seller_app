@@ -68,7 +68,7 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
 
       
      widget.isFilter ? Padding(
-        padding:  EdgeInsets.only(left :  0,
+        padding:  const EdgeInsets.only(left :  0,
             right :  Dimensions.paddingSizeExtraSmall),
        child: GestureDetector(
           onTap: widget.filterAction as void Function()?,

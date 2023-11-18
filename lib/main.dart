@@ -6,6 +6,10 @@ import 'bloc/add_product/add_product_bloc.dart';
 import 'bloc/categories/categories_bloc.dart';
 import 'bloc/login/login_bloc.dart';
 import 'bloc/logout/logout_bloc.dart';
+import 'bloc/orders/orders_bloc.dart';
+import 'bloc/orders2/orders2_bloc.dart';
+import 'bloc/orders3/orders3_bloc.dart';
+import 'bloc/orders4/orders4_bloc.dart';
 import 'bloc/products/products_bloc.dart';
 import 'bloc/register/register_bloc.dart';
 import 'data/datasources/auth_local_datasource.dart';
@@ -51,6 +55,18 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AddProductBloc(),
+        ),
+        BlocProvider(
+          create: (context) => OrdersBloc(),
+        ),
+        BlocProvider(
+          create: (context) => Orders2Bloc(),
+        ),
+        BlocProvider(
+          create: (context) => Orders3Bloc(),
+        ),
+        BlocProvider(
+          create: (context) => Orders4Bloc(),
         ),
       ],
       child: MaterialApp(

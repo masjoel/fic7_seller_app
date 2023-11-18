@@ -1,156 +1,199 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../bloc/orders/orders_bloc.dart';
+import '../../../bloc/orders2/orders2_bloc.dart';
+import '../../../bloc/orders3/orders3_bloc.dart';
+import '../../../bloc/orders4/orders4_bloc.dart';
 import '../../../utils/color_resources.dart';
-import '../../../utils/custom_themes.dart';
 import '../../../utils/dimensions.dart';
-import '../../../utils/images.dart';
 import 'order_type_button_head.dart';
 
-class OngoingOrderWidget extends StatelessWidget {
+// Import lainnya...
+
+class OngoingOrderWidget extends StatefulWidget {
   final Function? callback;
-  const OngoingOrderWidget({Key? key, this.callback}) : super(key: key);
+
+  const OngoingOrderWidget({
+    Key? key,
+    this.callback,
+  }) : super(key: key);
+
+  @override
+  State<OngoingOrderWidget> createState() => _OngoingOrderWidgetState();
+}
+
+class _OngoingOrderWidgetState extends State<OngoingOrderWidget> {
+  @override
+  void initState() {
+    context.read<OrdersBloc>().add(const OrdersEvent.getOrdersStat1());
+    context.read<Orders2Bloc>().add(const Orders2Event.getOrdersStat2());
+    context.read<Orders3Bloc>().add(const Orders3Event.getOrdersStat3());
+    context.read<Orders4Bloc>().add(const Orders4Event.getOrdersStat4());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        boxShadow: [
-          BoxShadow(
-              color: ColorResources.getPrimary(context).withOpacity(.05),
-              spreadRadius: -3,
-              blurRadius: 12,
-              offset: Offset.fromDirection(0, 6))
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding:  const EdgeInsets.symmetric(
-                horizontal: Dimensions.paddingSizeMedium),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                    width: Dimensions.iconSizeLarge,
-                    height: Dimensions.iconSizeLarge,
-                    padding: const EdgeInsets.only(
-                        left: Dimensions.paddingSizeExtraSmall),
-                    child: Image.asset(Images.monthlyEarning)),
-                const SizedBox(
-                  width: Dimensions.paddingSizeSmall,
-                ),
-                Text(
-                  'Business Analytics',
-                  style: robotoBold.copyWith(
-                      color: ColorResources.getTextColor(context),
-                      fontSize: Dimensions.fontSizeDefault),
-                ),
-                const Expanded(
-                    child: SizedBox(
-                  width: Dimensions.paddingSizeExtraLarge,
-                )),
-                Container(
-                  height: 50,
-                  width: 120,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: Dimensions.paddingSizeSmall),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    border: Border.all(
-                        width: .7,
-                        color: Theme.of(context).hintColor.withOpacity(.3)),
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
-                  ),
-                  child: DropdownButton<String>(
-                    value: 'overall',
-                    items: <String>['overall', 'today', 'this_month']
-                        .map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          'overall',
-                          style: robotoRegular.copyWith(
-                              fontSize: Dimensions.fontSizeDefault),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (value) {},
-                    isExpanded: true,
-                    underline: const SizedBox(),
-                  ),
-                ),
-              ],
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Bagian lain dari kode Anda...
+
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            Dimensions.paddingSizeDefault,
+            Dimensions.paddingSizeExtraSmall,
+            Dimensions.paddingSizeDefault,
+            Dimensions.fontSizeSmall,
           ),
-          const SizedBox(
-            height: Dimensions.paddingSizeSmall,
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-                Dimensions.paddingSizeDefault,
-                Dimensions.paddingSizeExtraSmall,
-                Dimensions.paddingSizeDefault,
-                Dimensions.paddingSeven),
-            child: Text(
-              'Ongoing Orders',
-              style: robotoBold.copyWith(color: Theme.of(context).primaryColor),
-            ),
-          ),
-          Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                        Dimensions.paddingSizeSmall,
+          child: GridView.count(
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 2,
+            childAspectRatio: (1 / .65),
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            children: [
+              BlocBuilder<OrdersBloc, OrdersState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return buildOrderTypeButtonHead(
+                        context,
+                        ColorResources.mainCardOneColor(context),
+                        'Pending',
+                        1,
+                        'Orders',
                         0,
-                        Dimensions.paddingSizeSmall,
-                        Dimensions.fontSizeSmall),
-                    child: GridView.count(
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      childAspectRatio: (1 / .65),
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      children: [
-                        OrderTypeButtonHead(
-                          color: ColorResources.mainCardOneColor(context),
-                          text: 'Pending',
-                          index: 1,
-                          subText: 'Orders',
-                          numberOfOrder: 3,
-                          callback: callback,
-                        ),
-                        OrderTypeButtonHead(
-                          color: ColorResources.mainCardTwoColor(context),
-                          text: 'Packaging',
-                          index: 2,
-                          numberOfOrder: 4,
-                          callback: callback,
-                          subText: 'Order',
-                        ),
-                        OrderTypeButtonHead(
-                          color: ColorResources.mainCardThreeColor(context),
-                          text: 'Confirmed',
-                          index: 7,
-                          subText: 'Order',
-                          numberOfOrder: 5,
-                          callback: callback,
-                        ),
-                        OrderTypeButtonHead(
-                          color: ColorResources.mainCardFourColor(context),
-                          text: 'Out of Delivery',
-                          index: 8,
-                          subText: '',
-                          numberOfOrder: 6,
-                          callback: callback,
-                        ),
-                      ],
+                      );
+                    },
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
                     ),
-                  ),
-          const SizedBox(height: Dimensions.paddingSizeSmall),
-        ],
-      ),
+                    loaded: (data) {
+                      return buildOrderTypeButtonHead(
+                        context,
+                        ColorResources.mainCardOneColor(context),
+                        'Pending',
+                        1,
+                        'Orders',
+                        data.data.length,
+                      );
+                    },
+                  );
+                },
+              ),
+              BlocBuilder<Orders3Bloc, Orders3State>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return buildOrderTypeButtonHead(
+                        context,
+                        ColorResources.mainCardTwoColor(context),
+                        'Packaging',
+                        2,
+                        'Order',
+                        0,
+                      );
+                    },
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    loaded: (data) {
+                      return buildOrderTypeButtonHead(
+                        context,
+                        ColorResources.mainCardTwoColor(context),
+                        'Packaging',
+                        2,
+                        'Order',
+                        data.data.length,
+                      );
+                    },
+                  );
+                },
+              ),
+              BlocBuilder<Orders2Bloc, Orders2State>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return buildOrderTypeButtonHead(
+                        context,
+                        ColorResources.mainCardThreeColor(context),
+                        'Confirmed',
+                        7,
+                        'Order',
+                        0,
+                      );
+                    },
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    loaded: (data) {
+                      return buildOrderTypeButtonHead(
+                        context,
+                        ColorResources.mainCardThreeColor(context),
+                        'Confirmed',
+                        7,
+                        'Order',
+                        data.data.length,
+                      );
+                    },
+                  );
+                },
+              ),
+              BlocBuilder<Orders4Bloc, Orders4State>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return buildOrderTypeButtonHead(
+                        context,
+                        ColorResources.mainCardFourColor(context),
+                        'Out of',
+                        8,
+                        'Order',
+                        0,
+                      );
+                    },
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    loaded: (data) {
+                      return buildOrderTypeButtonHead(
+                        context,
+                        ColorResources.mainCardFourColor(context),
+                        'Out of',
+                        8,
+                        'Order',
+                        data.data.length,
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: Dimensions.paddingSizeSmall),
+      ],
+    );
+  }
+
+  Widget buildOrderTypeButtonHead(
+    BuildContext context,
+    Color color,
+    String text,
+    int index,
+    String subText,
+    int numberOfOrder,
+  ) {
+    return OrderTypeButtonHead(
+      color: color,
+      text: text,
+      index: index,
+      subText: subText,
+      numberOfOrder: numberOfOrder,
+      callback: widget.callback,
     );
   }
 }
